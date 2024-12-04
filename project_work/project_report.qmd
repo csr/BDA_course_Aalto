@@ -1,0 +1,98 @@
+---
+title: "Bayesian Data Analysis Project"
+author: "Student Name(s)"
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+---
+
+# Introduction
+
+```{r}
+#| include: false
+# This chunk will not show in the output
+# Setup chunk to load necessary libraries and set options
+library(brms)
+options(brms.backend = "cmdstanr")
+library(posterior)
+options(posterior.num_args=list(digits=2))
+
+library(ggplot2)
+library(bayesplot)
+theme_set(bayesplot::theme_default(base_family = "sans", base_size=14))
+```
+
+```{r}
+#| echo: true
+
+# This chunk is visible and will display code and output
+
+head(npk)
+```
+
+```{r}
+#| echo: true
+#| results: hide
+#| warning: false
+#| message: false
+
+# This chunk's code is shown and run but the output and messages are suppressed
+
+model <- brm(yield ~ N * P * K, data = npk)
+```
+
+
+```{r}
+#| echo: false
+#| warning: false
+#| results: markup
+
+# This chunk's code is hidden, but the output is shown
+
+summary(model)
+```
+
+# Plots
+
+You can specify the width of a figure:
+```{r}
+#| out-width: "8cm"
+#| echo: false
+npk |>
+  ggplot(
+    aes(
+      x = N,
+      y = P,
+      fill = yield
+    )
+  ) +
+  facet_grid(
+    cols = vars(K),
+    labeller = label_both
+  ) +
+  geom_tile() +
+  coord_equal()
+```
+
+
+Again but smaller
+```{r}
+#| out-width: "3cm"
+#| echo: false
+npk |>
+  ggplot(
+    aes(
+      x = N,
+      y = P,
+      fill = yield
+    )
+  ) +
+  facet_grid(
+    cols = vars(K),
+    labeller = label_both
+  ) +
+  geom_tile() +
+  coord_equal()
+```

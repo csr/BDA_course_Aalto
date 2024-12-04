@@ -242,3 +242,7 @@ assignments/*.tex
 
 # sandbox
 sandbox/*
+
+/.luarc.json
+
+/.quarto/
